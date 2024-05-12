@@ -1,0 +1,7 @@
+.env
+node_modules/
+.gitpod.yml
+notas.txt
+ejemplo.js
+sample.env
+.vscode

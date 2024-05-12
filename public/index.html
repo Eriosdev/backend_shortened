@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Shortener</title>
+</head>
+<body>
+  <h1>URL Shortener</h1>
+
+  <form id="urlForm" method="POST" action="/api/shorturl">
+    <label for="url">Enter URL:</label>
+    <input type="text" id="url" name="url" required>
+    <button type="submit">Shorten</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById('urlForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      fetch('/api/shorturl', {
+        method: 'POST',
+        body: new FormData(form) 
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          resultDiv.textContent = `Error: ${data.error}`;
+        } else {
+          resultDiv.innerHTML = `
+            <p>Original URL: ${data.original_url}</p>
+            <p>Short URL: <a href="/api/shorturl/${data.short_url}">/api/shorturl/${data.short_url}</a></p>`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
